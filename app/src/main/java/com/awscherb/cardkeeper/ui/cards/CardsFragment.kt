@@ -18,6 +18,10 @@ import com.awscherb.cardkeeper.ui.scan.ScanFragment
 import com.google.zxing.BarcodeFormat
 import kotlinx.android.synthetic.main.fragment_cards.*
 import javax.inject.Inject
+import androidx.recyclerview.widget.ItemTouchHelper
+import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
+
+
 
 class CardsFragment : BaseFragment(), CardsContract.View {
 
@@ -115,7 +119,7 @@ class CardsFragment : BaseFragment(), CardsContract.View {
 
     private fun setupRecycler() {
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
-        scannedCodeAdapter = CardsAdapter(activity!!) { code ->
+        scannedCodeAdapter = CardsAdapter(activity!!, presenter) { code ->
             AlertDialog.Builder(requireContext())
                 .setTitle(R.string.adapter_scanned_code_delete_message)
                 .setPositiveButton(R.string.action_delete) { _, _ ->
@@ -124,6 +128,12 @@ class CardsFragment : BaseFragment(), CardsContract.View {
                 .setNegativeButton(R.string.action_cancel, null)
                 .show()
         }
+
+        val callback = RVHItemTouchHelperCallback(scannedCodeAdapter, true, true,
+                true)
+        val helper = ItemTouchHelper(callback)
+        helper.attachToRecyclerView(cardsRecycler)
+
         cardsRecycler.layoutManager = layoutManager
         cardsRecycler.adapter = scannedCodeAdapter
     }

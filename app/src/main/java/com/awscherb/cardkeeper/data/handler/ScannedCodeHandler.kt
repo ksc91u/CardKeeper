@@ -38,4 +38,13 @@ class ScannedCodeHandler @Inject constructor(
         }.compose(scheduleCompletable())
     }
 
+    override fun swapScannedCode(code0: ScannedCode, code1: ScannedCode): Completable {
+        return Completable.fromCallable {
+            val index = code1.id
+            code1.id = code0.id
+            code0.id = index
+            scannedCodeDao.updateCode(code0)
+            scannedCodeDao.updateCode(code1)
+        }.compose(scheduleCompletable())
+    }
 }

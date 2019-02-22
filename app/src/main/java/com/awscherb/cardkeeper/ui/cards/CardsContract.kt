@@ -24,6 +24,8 @@ interface CardsContract {
 
         fun deleteCard(code: ScannedCode)
 
+        fun swapCard(code0: ScannedCode, code1: ScannedCode)
+
     }
 
 

@@ -39,4 +39,13 @@ class CardsPresenter @Inject constructor(
                     { view?.onError(it) })
         )
     }
+
+    override fun swapCard(code0: ScannedCode, code1: ScannedCode) {
+        addDisposable(
+                scannedCodeService.swapScannedCode(code0, code1)
+                        .compose(scheduleCompletable())
+                        .subscribe({ },
+                                { view?.onError(it) })
+        )
+    }
 }

@@ -11,13 +11,24 @@ import com.awscherb.cardkeeper.ui.base.BaseAdapter
 import com.google.zxing.BarcodeFormat.*
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import github.nisrulz.recyclerviewhelper.RVHAdapter
 import kotlinx.android.synthetic.main.adapter_code.view.*
 
 
 class CardsAdapter constructor(
     private val context: Context,
+    presenter: CardsContract.Presenter,
     private val deleteListener: (ScannedCode) -> Unit
-) : BaseAdapter<ScannedCode>() {
+) : BaseAdapter<ScannedCode>(presenter), RVHAdapter {
+    override fun onItemDismiss(position: Int, direction: Int) {
+        deleteListener(objects[position])
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        swap(fromPosition, toPosition)
+        presenter.swapCard(objects[fromPosition], objects[toPosition])
+        return true
+    }
 
     private val encoder: BarcodeEncoder = BarcodeEncoder()
 
@@ -57,11 +68,6 @@ class CardsAdapter constructor(
                 e.printStackTrace()
             }
 
-            // Setup delete
-            setOnLongClickListener {
-                deleteListener(item)
-                true
-            }
         }
 
 

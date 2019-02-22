@@ -3,9 +3,13 @@ package com.awscherb.cardkeeper.ui.base
 import androidx.recyclerview.widget.RecyclerView
 
 import com.awscherb.cardkeeper.data.model.BaseModel
+import com.awscherb.cardkeeper.ui.cards.CardsContract
+import java.util.*
+import kotlin.collections.ArrayList
 
 abstract class BaseAdapter<T> constructor(
-    private var objects: List<T> = ArrayList()
+        var presenter: CardsContract.Presenter,
+        var objects: List<T> = ArrayList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() where T : BaseModel {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -21,6 +25,16 @@ abstract class BaseAdapter<T> constructor(
     fun swapObjects(newObjects: List<T>) {
         objects = newObjects
         notifyDataSetChanged()
+    }
+
+    fun swap(first: Int, second:Int){
+        Collections.swap(objects, first, second)
+        notifyItemMoved(first, second)
+    }
+
+    fun remove(position: Int){
+        (objects as ArrayList).removeAt(position)
+        notifyItemRemoved(position)
     }
 
 }

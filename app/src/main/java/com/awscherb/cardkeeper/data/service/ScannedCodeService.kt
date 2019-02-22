@@ -19,4 +19,6 @@ interface ScannedCodeService {
 
     fun deleteScannedCode(scannedCode: ScannedCode): Completable
 
+    fun swapScannedCode(code0: ScannedCode, code1: ScannedCode): Completable
+
 }
