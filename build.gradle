@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.71"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21"
         classpath 'io.fabric.tools:gradle:1.+'
         classpath 'com.google.gms:google-services:4.2.0'
     }
@@ -19,10 +19,8 @@ plugins {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://maven.google.com" }
-        maven { url 'https://maven.fabric.io/public' }
-
         google()
+        maven { url 'https://maven.fabric.io/public' }
     }
 }
 
@@ -39,7 +37,7 @@ ext {
     constraintLayoutVersion = '2.0.0-alpha3'
 
     // Kotlin
-    kotlinVersion = '1.2.71'
+    kotlinVersion = '1.3.21'
 
     // RX
     rxJavaVersion = '2.2.4'
@@ -48,7 +46,6 @@ ext {
     rxLifecycleVersion = '3.0.0'
 
     // App dependencies
-    supportLibraryVersion = '28.0.0'
     daggerVersion = '2.16'
     butterKnifeVersion = '8.8.1'
     guavaVersion = '21.0'
