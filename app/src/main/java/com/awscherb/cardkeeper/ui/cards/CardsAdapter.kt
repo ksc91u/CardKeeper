@@ -40,6 +40,7 @@ class CardsAdapter constructor(
 
             // Set title
             codeTitle.text = item.title
+            codeData.text = item.text
 
             // Set image scaleType according to barcode type
             when (item.format) {
