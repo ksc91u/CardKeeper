@@ -10,7 +10,7 @@ android {
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        applicationId "com.awscherb.cardkeeper"
+        applicationId "com.ksc91u.billscanner"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -23,12 +23,12 @@ android {
     productFlavors {
         dev {
             dimension "env"
-            applicationId "com.awscherb.cardkeeper.dev"
+            applicationId "com.ksc91u.billscanner.dev"
             buildConfigField "Boolean", "PRODUCTION", "false"
         }
         prod {
             dimension "env"
-            applicationId "com.awscherb.cardkeeper"
+            applicationId "com.ksc91u.billscanner"
             buildConfigField "Boolean", "PRODUCTION", "true"
         }
     }
@@ -66,6 +66,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
     implementation 'com.google.android.material:material:1.1.0-alpha02'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
 
     // Room
     implementation 'androidx.room:room-runtime:2.1.0-alpha03'
@@ -116,3 +117,5 @@ kapt {
 configurations.all {
     resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlinVersion"
 }
+
+apply plugin: 'com.google.gms.google-services'
