@@ -35,6 +35,15 @@
                     tools:text="Grocery store loyalty card" />
 
                 <TextView
+                    android:id="@+id/codeFormat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="16dp"
+                    android:textColor="@color/colorPrimary"
+                    tools:text="Grocery store loyalty card" />
+
+                <TextView
                     android:id="@+id/codeData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
