@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
+androidExtensions {
+    experimental = true
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -11,6 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.ksc91u.billscanner"
+        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -68,6 +72,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha03'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-ml-vision:19.0.2'
+
+    implementation "androidx.multidex:multidex:2.0.1"
 
     // Room
     implementation 'androidx.room:room-runtime:2.1.0-alpha04'
@@ -108,15 +115,8 @@ dependencies {
     testImplementation "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
     testImplementation "org.hamcrest:hamcrest-all:$rootProject.ext.hamcrestVersion"
     testImplementation "com.nhaarman:mockito-kotlin:1.5.0"
-
 }
 
-kapt {
-    generateStubs = true
-}
 
-configurations.all {
-    resolutionStrategy.force "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlinVersion"
-}
 
 apply plugin: 'com.google.gms.google-services'

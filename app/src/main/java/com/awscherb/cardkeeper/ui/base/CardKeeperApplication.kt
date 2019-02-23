@@ -1,6 +1,7 @@
 package com.awscherb.cardkeeper.ui.base
 
 import android.app.Application
+import androidx.multidex.MultiDexApplication
 
 import com.awscherb.cardkeeper.di.component.DaggerViewComponent
 import com.awscherb.cardkeeper.di.component.ViewComponent
@@ -12,7 +13,7 @@ import com.crashlytics.android.answers.Answers
 import io.fabric.sdk.android.Fabric
 
 
-class CardKeeperApplication : Application() {
+class CardKeeperApplication : MultiDexApplication() {
 
     lateinit var viewComponent: ViewComponent
         private set
