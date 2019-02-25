@@ -140,8 +140,8 @@ class CardsFragment : BaseFragment(), CardsContract.View {
             presenter.deleteCard(code)
         }
 
-        val callback = RVHItemTouchHelperCallback(scannedCodeAdapter, true, true,
-                true)
+        val callback = RVHItemTouchHelperCallback(scannedCodeAdapter, true, false,
+                false)
         val helper = ItemTouchHelper(callback)
         helper.attachToRecyclerView(cardsRecycler)
 
@@ -168,6 +168,10 @@ class CardsFragment : BaseFragment(), CardsContract.View {
                 }
             )
         )
+    }
+
+    fun switch() {
+        scannedCodeAdapter.switch()
     }
 
     companion object {

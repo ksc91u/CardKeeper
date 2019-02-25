@@ -21,6 +21,8 @@ class CardsActivity(): BaseActivity() {
     @Inject
     lateinit var twCodeDao: TwCodeDao
 
+    private lateinit var fragment: CardsFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewComponent().inject(this)
@@ -52,7 +54,12 @@ class CardsActivity(): BaseActivity() {
             )
         }
 
-        insertFragment(CardsFragment.newInstance())
+        switchFab.setOnClickListener {
+            fragment.switch()
+        }
+
+        fragment = CardsFragment.newInstance()
+        insertFragment(fragment)
 
     }
 

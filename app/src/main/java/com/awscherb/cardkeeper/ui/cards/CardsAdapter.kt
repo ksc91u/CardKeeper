@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.ScannedCode
 import com.awscherb.cardkeeper.ui.base.BaseAdapter
+import com.google.zxing.BarcodeFormat
 import com.google.zxing.BarcodeFormat.*
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
@@ -21,7 +22,7 @@ class CardsAdapter constructor(
         private val deleteListener: (ScannedCode) -> Unit
 ) : BaseAdapter<ScannedCode>(presenter), RVHAdapter {
     override fun onItemDismiss(position: Int, direction: Int) {
-        deleteListener(objects[position])
+        //deleteListener(objects[position])
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
@@ -31,6 +32,7 @@ class CardsAdapter constructor(
     }
 
     private val encoder: BarcodeEncoder = BarcodeEncoder()
+    private var code128: Boolean = false
 
     //================================================================================
     // Adapter methods
@@ -55,9 +57,9 @@ class CardsAdapter constructor(
         holder.itemView.apply {
 
             // Set title
-            codeTitle.text = item.title
+            codeTitle.text = ""
             codeData.text = item.text
-            codeFormat.text = item.format.name
+            codeFormat.text = if(code128) mlkit.BarcodeFormat.CODE_128.name else item.format.name
 
             // Set image scaleType according to barcode type
             when (item.format) {
@@ -67,9 +69,15 @@ class CardsAdapter constructor(
 
             // Load image
             try {
-                codeImage.setImageBitmap(
-                        encoder.encodeBitmap(item.text, item.format.toZxing(), 200, 200)
-                )
+                if(code128){
+                    codeImage.setImageBitmap(
+                            encoder.encodeBitmap(item.text, BarcodeFormat.CODE_128, 200, 200)
+                    )
+                }else{
+                    codeImage.setImageBitmap(
+                            encoder.encodeBitmap(item.text, item.format.toZxing(), 200, 200)
+                    )
+                }
             } catch (e: WriterException) {
                 e.printStackTrace()
             }
@@ -77,6 +85,11 @@ class CardsAdapter constructor(
         }
 
 
+    }
+
+    fun switch() {
+        code128 = !code128
+        notifyDataSetChanged()
     }
 
 

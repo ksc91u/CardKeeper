@@ -29,6 +29,17 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/switchFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@android:drawable/ic_menu_edit"
+        app:fabSize="normal"
+        app:layout_anchor="@+id/container"
+        app:layout_anchorGravity="bottom|left|start" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/cardsFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
