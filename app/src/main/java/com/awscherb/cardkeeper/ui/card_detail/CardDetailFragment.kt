@@ -8,11 +8,11 @@ import android.widget.ImageView
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.ScannedCode
 import com.awscherb.cardkeeper.ui.base.BaseFragment
-import com.google.zxing.BarcodeFormat.*
 import com.google.zxing.WriterException
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import kotlinx.android.synthetic.main.fragment_card_detail.*
+import mlkit.BarcodeFormat
 import javax.inject.Inject
 
 class CardDetailFragment : BaseFragment(), CardDetailContract.View {
@@ -68,7 +68,7 @@ class CardDetailFragment : BaseFragment(), CardDetailContract.View {
 
         // Set image scaleType according to barcode type
         val scaleType = when (code.format) {
-            QR_CODE, AZTEC, DATA_MATRIX -> ImageView.ScaleType.FIT_CENTER
+            BarcodeFormat.QR_CODE, BarcodeFormat.AZTEC, BarcodeFormat.DATA_MATRIX -> ImageView.ScaleType.FIT_CENTER
             else -> ImageView.ScaleType.FIT_XY
         }
         cardDetailImage.scaleType = scaleType
@@ -76,7 +76,7 @@ class CardDetailFragment : BaseFragment(), CardDetailContract.View {
         // Load image
         try {
             cardDetailImage.setImageBitmap(
-                encoder.encodeBitmap(code.text, code.format, 200, 200)
+                encoder.encodeBitmap(code.text, code.format.toZxing(), 200, 200)
             )
         } catch (e: WriterException) {
             e.printStackTrace()

@@ -6,6 +6,7 @@ import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.ui.base.BaseActivity
 import com.awscherb.cardkeeper.ui.scan.ScanActivity
 import kotlinx.android.synthetic.main.activity_cards.*
+import mlkit.LivePreviewActivity
 
 class CardsActivity : BaseActivity() {
 
@@ -22,7 +23,7 @@ class CardsActivity : BaseActivity() {
 
         cardsFab.setOnClickListener {
             supportFragmentManager.findFragmentById(R.id.container)?.startActivityForResult(
-                Intent(this, ScanActivity::class.java), REQUEST_GET_CODE
+                Intent(this, LivePreviewActivity::class.java), REQUEST_GET_CODE
             )
         }
 

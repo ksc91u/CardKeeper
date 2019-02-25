@@ -2,7 +2,7 @@ package com.awscherb.cardkeeper.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.zxing.BarcodeFormat
+import mlkit.BarcodeFormat
 
 @Entity(tableName = "scannedCode")
 class ScannedCode: BaseModel() {

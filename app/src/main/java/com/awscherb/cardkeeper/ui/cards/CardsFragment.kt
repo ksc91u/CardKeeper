@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_cards.*
 import javax.inject.Inject
 import androidx.recyclerview.widget.ItemTouchHelper
 import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
-
+import mlkit.BarCode
 
 
 class CardsFragment : BaseFragment(), CardsContract.View {
@@ -71,25 +71,35 @@ class CardsFragment : BaseFragment(), CardsContract.View {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == CardsActivity.REQUEST_GET_CODE && resultCode == RESULT_OK) {
-            val scannedCode = ScannedCode()
-            scannedCode.text = data!!.getStringExtra(ScanFragment.EXTRA_BARCODE_TEXT)
-            scannedCode.format =
-                    data.getSerializableExtra(ScanFragment.EXTRA_BARCODE_FORMAT) as BarcodeFormat
 
-            val input = EditText(activity).apply {
-                setHint(R.string.dialog_card_name_hint)
-                inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+            val codeaList = data!!.getParcelableArrayListExtra<BarCode>("QRCODE")
+            codeaList.forEach {
+                val scannedCode = ScannedCode()
+                scannedCode.format = it.barcodeFormat
+                scannedCode.text = it.rawValue
+                scannedCode.title = it.displayValue
+                presenter.addNewCard(scannedCode)
             }
 
-            AlertDialog.Builder(activity!!)
-                .setTitle(R.string.app_name)
-                .setView(input)
-                .setPositiveButton(R.string.action_add) { _, _ ->
-                    scannedCode.title = input.text.toString()
-                    presenter.addNewCard(scannedCode)
-                }
-                .setNegativeButton(R.string.action_cancel) { dialog, _ -> dialog.dismiss() }
-                .show()
+//            val scannedCode = ScannedCode()
+//            scannedCode.text = data!!.getStringExtra(ScanFragment.EXTRA_BARCODE_TEXT)
+//            scannedCode.format =
+//                    data.getSerializableExtra(ScanFragment.EXTRA_BARCODE_FORMAT) as BarcodeFormat
+//
+//            val input = EditText(activity).apply {
+//                setHint(R.string.dialog_card_name_hint)
+//                inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+//            }
+//
+//            AlertDialog.Builder(activity!!)
+//                .setTitle(R.string.app_name)
+//                .setView(input)
+//                .setPositiveButton(R.string.action_add) { _, _ ->
+//                    scannedCode.title = input.text.toString()
+//                    presenter.addNewCard(scannedCode)
+//                }
+//                .setNegativeButton(R.string.action_cancel) { dialog, _ -> dialog.dismiss() }
+//                .show()
         }
     }
 

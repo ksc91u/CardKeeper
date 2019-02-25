@@ -224,7 +224,7 @@ class LivePreviewActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
             //TODO check valid
             (it.rawValue != null && it.displayValue != null)
         }.map {
-            QRCode(it.rawValue!!, it.displayValue!!)
+            BarCode(it.rawValue!!, it.displayValue!! , BarcodeFormat.fromInt(it.format)!!)
         }
 
         //TODO check result not empty

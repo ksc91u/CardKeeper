@@ -47,7 +47,7 @@ public class BarcodeScanningProcessor extends VisionProcessorBase<List<FirebaseV
     // Note that if you know which format of barcode your app is dealing with, detection will be
     // faster to specify the supported barcode formats one by one, e.g.
     FirebaseVisionBarcodeDetectorOptions options = new FirebaseVisionBarcodeDetectorOptions.Builder()
-            .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_QR_CODE)
+            .setBarcodeFormats(FirebaseVisionBarcode.FORMAT_CODE_39)
             .build();
     detector = FirebaseVision.getInstance().getVisionBarcodeDetector(options);
     mCallback = callback;

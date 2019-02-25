@@ -63,7 +63,7 @@ class CardsAdapter constructor(
             // Load image
             try {
                 codeImage.setImageBitmap(
-                    encoder.encodeBitmap(item.text, item.format, 200, 200)
+                    encoder.encodeBitmap(item.text, item.format.toZxing(), 200, 200)
                 )
             } catch (e: WriterException) {
                 e.printStackTrace()
