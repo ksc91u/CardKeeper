@@ -130,13 +130,14 @@ class CardsFragment : BaseFragment(), CardsContract.View {
     private fun setupRecycler() {
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         scannedCodeAdapter = CardsAdapter(activity!!, presenter) { code ->
-            AlertDialog.Builder(requireContext())
-                .setTitle(R.string.adapter_scanned_code_delete_message)
-                .setPositiveButton(R.string.action_delete) { _, _ ->
-                    presenter.deleteCard(code)
-                }
-                .setNegativeButton(R.string.action_cancel, null)
-                .show()
+//            AlertDialog.Builder(requireContext())
+//                .setTitle(R.string.adapter_scanned_code_delete_message)
+//                .setPositiveButton(R.string.action_delete) { _, _ ->
+//                    presenter.deleteCard(code)
+//                }
+//                .setNegativeButton(R.string.action_cancel, null)
+//                .show()
+            presenter.deleteCard(code)
         }
 
         val callback = RVHItemTouchHelperCallback(scannedCodeAdapter, true, true,
