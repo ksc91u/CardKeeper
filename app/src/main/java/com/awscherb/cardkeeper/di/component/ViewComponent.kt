@@ -2,6 +2,7 @@ package com.awscherb.cardkeeper.di.component
 
 import com.awscherb.cardkeeper.di.module.*
 import com.awscherb.cardkeeper.ui.card_detail.CardDetailFragment
+import com.awscherb.cardkeeper.ui.cards.CardsActivity
 import com.awscherb.cardkeeper.ui.cards.CardsFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -18,4 +19,5 @@ import javax.inject.Singleton
 interface ViewComponent {
     fun inject(view: CardDetailFragment)
     fun inject(view: CardsFragment)
+    fun inject(cardsActivity: CardsActivity)
 }

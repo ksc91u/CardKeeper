@@ -13,3 +13,13 @@ class ScannedCode: BaseModel() {
     lateinit var title: String
     var created: Long = 0
 }
+
+@Entity(tableName = "twCode")
+class TwCode: BaseModel() {
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
+    lateinit var format: BarcodeFormat
+    lateinit var code9: String
+    lateinit var code16: String
+    lateinit var code15: String
+    var created: Long = 0
+}

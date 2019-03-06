@@ -4,11 +4,14 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.awscherb.cardkeeper.data.dao.ScannedCodeDao
+import com.awscherb.cardkeeper.data.dao.TwCodeDao
 import com.awscherb.cardkeeper.data.model.ScannedCode
+import com.awscherb.cardkeeper.data.model.TwCode
 import com.awscherb.cardkeeper.util.db.BarcodeConverters
 
-@Database(entities = [(ScannedCode::class)], version = 11)
+@Database(entities = [(ScannedCode::class), (TwCode::class)], version = 11)
 @TypeConverters(BarcodeConverters::class)
 abstract class CardKeeperDatabase: RoomDatabase() {
     abstract fun scannedCodeDao(): ScannedCodeDao
+    abstract fun twCodeDao(): TwCodeDao
 }

@@ -8,4 +8,7 @@ import dagger.Provides
 class DaoModule {
     @Provides
     fun provideScannedCodeDao(db: CardKeeperDatabase) = db.scannedCodeDao()
+
+    @Provides
+    fun provideTwCodeDao(db: CardKeeperDatabase) = db.twCodeDao()
 }
