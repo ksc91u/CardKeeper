@@ -1,9 +1,9 @@
 package com.awscherb.cardkeeper.ui.cards
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.ScannedCode
@@ -16,9 +16,9 @@ import kotlinx.android.synthetic.main.adapter_code.view.*
 
 
 class CardsAdapter constructor(
-    private val context: Context,
-    presenter: CardsContract.Presenter,
-    private val deleteListener: (ScannedCode) -> Unit
+        private val context: FragmentActivity,
+        presenter: CardsContract.Presenter,
+        private val deleteListener: (ScannedCode) -> Unit
 ) : BaseAdapter<ScannedCode>(presenter), RVHAdapter {
     override fun onItemDismiss(position: Int, direction: Int) {
         deleteListener(objects[position])
@@ -38,15 +38,20 @@ class CardsAdapter constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return object : RecyclerView.ViewHolder(
-            LayoutInflater.from(context).inflate(
-                R.layout.adapter_code,
-                parent,
-                false
-            )
+                LayoutInflater.from(context).inflate(
+                        R.layout.adapter_code,
+                        parent,
+                        false
+                )
         ) {}
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ScannedCode) {
+//        val display = context.windowManager.defaultDisplay
+//        val metrics = DisplayMetrics()
+//        display.getMetrics(metrics)
+//        val widthPixel = metrics.widthPixels
+
         holder.itemView.apply {
 
             // Set title
@@ -63,7 +68,7 @@ class CardsAdapter constructor(
             // Load image
             try {
                 codeImage.setImageBitmap(
-                    encoder.encodeBitmap(item.text, item.format.toZxing(), 200, 200)
+                        encoder.encodeBitmap(item.text, item.format.toZxing(), 200, 200)
                 )
             } catch (e: WriterException) {
                 e.printStackTrace()
