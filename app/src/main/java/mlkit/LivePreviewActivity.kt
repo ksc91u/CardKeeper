@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.awscherb.cardkeeper.R
+import com.awscherb.cardkeeper.data.model.TWSuperMarketCode
 import com.google.android.gms.common.annotation.KeepName
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
 import mlkit.barcodescanning.BarcodeScanningProcessor
@@ -46,6 +47,7 @@ class LivePreviewActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
     private var preview: CameraSourcePreview? = null
     private var graphicOverlay: GraphicOverlay? = null
     private var selectedModel = BARCODE_DETECTION
+    private var twcode: TWSuperMarketCode = TWSuperMarketCode()
 
     private val requiredPermissions: Array<String>
         get() {
@@ -227,13 +229,17 @@ class LivePreviewActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
             BarCode(it.rawValue!!, it.displayValue!! , BarcodeFormat.fromInt(it.format)!!)
         }
 
+        twcode.addCodes(result)
+
         //TODO check result not empty
 
-        val data = Intent()
-        data.putParcelableArrayListExtra("QRCODE", ArrayList(result))
+        if(twcode.isComplete()) {
+            val data = Intent()
+            data.putParcelableArrayListExtra("QRCODE", arrayListOf(twcode.code9, twcode.code16, twcode.code15))
 
-        setResult(Activity.RESULT_OK, data)
-        finish()
+            setResult(Activity.RESULT_OK, data)
+            finish()
+        }
     }
 
     override fun onFailure(e: Exception) {
