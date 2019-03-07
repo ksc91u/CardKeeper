@@ -235,7 +235,7 @@ class LivePreviewActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
 
         if(twcode.isComplete()) {
             val data = Intent()
-            data.putParcelableArrayListExtra("QRCODE", arrayListOf(twcode.code9, twcode.code16, twcode.code15))
+            data.putExtra("TWCODE", twcode)
 
             setResult(Activity.RESULT_OK, data)
             finish()

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.ScannedCode
+import com.awscherb.cardkeeper.data.model.TwCode
 import com.awscherb.cardkeeper.ui.base.BaseAdapter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BarcodeFormat.*
@@ -19,8 +20,8 @@ import kotlinx.android.synthetic.main.adapter_code.view.*
 class CardsAdapter constructor(
         private val context: FragmentActivity,
         presenter: CardsContract.Presenter,
-        private val deleteListener: (ScannedCode) -> Unit
-) : BaseAdapter<ScannedCode>(presenter), RVHAdapter {
+        private val deleteListener: (TwCode) -> Unit
+) : BaseAdapter<TwCode>(presenter), RVHAdapter {
     override fun onItemDismiss(position: Int, direction: Int) {
         //deleteListener(objects[position])
     }
@@ -48,7 +49,7 @@ class CardsAdapter constructor(
         ) {}
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ScannedCode) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: TwCode) {
 //        val display = context.windowManager.defaultDisplay
 //        val metrics = DisplayMetrics()
 //        display.getMetrics(metrics)
@@ -57,25 +58,45 @@ class CardsAdapter constructor(
         holder.itemView.apply {
 
             // Set title
-            codeTitle.text = ""
-            codeData.text = item.text
-            codeFormat.text = if(code128) mlkit.BarcodeFormat.CODE_128.name else item.format.name
+            codeData9.text = item.code9
+            codeData16.text = item.code16
+            codeData15.text = item.code15
 
             // Set image scaleType according to barcode type
             when (item.format) {
-                QR_CODE, AZTEC, DATA_MATRIX -> codeImage.scaleType = ImageView.ScaleType.FIT_CENTER
-                else -> codeImage.scaleType = ImageView.ScaleType.FIT_XY
+                QR_CODE, AZTEC, DATA_MATRIX -> {
+                    codeImage9.scaleType = ImageView.ScaleType.FIT_CENTER
+                    codeImage15.scaleType = ImageView.ScaleType.FIT_CENTER
+                    codeImage16.scaleType = ImageView.ScaleType.FIT_CENTER
+                }
+                else -> {
+                    codeImage9.scaleType = ImageView.ScaleType.FIT_XY
+                    codeImage16.scaleType = ImageView.ScaleType.FIT_XY
+                    codeImage15.scaleType = ImageView.ScaleType.FIT_XY
+                }
             }
 
             // Load image
             try {
                 if(code128){
-                    codeImage.setImageBitmap(
-                            encoder.encodeBitmap(item.text, BarcodeFormat.CODE_128, 200, 200)
+                    codeImage9.setImageBitmap(
+                            encoder.encodeBitmap(item.code9, BarcodeFormat.CODE_128, 200, 200)
+                    )
+                    codeImage16.setImageBitmap(
+                            encoder.encodeBitmap(item.code16, BarcodeFormat.CODE_128, 200, 200)
+                    )
+                    codeImage15.setImageBitmap(
+                            encoder.encodeBitmap(item.code15, BarcodeFormat.CODE_128, 200, 200)
                     )
                 }else{
-                    codeImage.setImageBitmap(
-                            encoder.encodeBitmap(item.text, item.format.toZxing(), 200, 200)
+                    codeImage9.setImageBitmap(
+                            encoder.encodeBitmap(item.code9, item.format.toZxing(), 200, 200)
+                    )
+                    codeImage16.setImageBitmap(
+                            encoder.encodeBitmap(item.code16, item.format.toZxing(), 200, 200)
+                    )
+                    codeImage15.setImageBitmap(
+                            encoder.encodeBitmap(item.code15, item.format.toZxing(), 200, 200)
                     )
                 }
             } catch (e: WriterException) {

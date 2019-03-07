@@ -1,6 +1,7 @@
 package com.awscherb.cardkeeper.ui.cards
 
 import com.awscherb.cardkeeper.data.model.ScannedCode
+import com.awscherb.cardkeeper.data.model.TwCode
 import com.awscherb.cardkeeper.ui.base.BasePresenter
 import com.awscherb.cardkeeper.ui.base.BaseView
 
@@ -8,9 +9,9 @@ interface CardsContract {
 
     interface View : BaseView {
 
-        fun showCards(codes: List<ScannedCode>)
+        fun showCards(codes: List<TwCode>)
 
-        fun onCardAdded(code: ScannedCode)
+        fun onCardAdded(code: TwCode)
 
         fun onCardDeleted()
 
@@ -20,11 +21,11 @@ interface CardsContract {
 
         fun loadCards()
 
-        fun addNewCard(code: ScannedCode)
+        fun addNewCard(code: TwCode)
 
-        fun deleteCard(code: ScannedCode)
+        fun deleteCard(code: TwCode)
 
-        fun swapCard(code0: ScannedCode, code1: ScannedCode)
+        fun swapCard(code0: TwCode, code1: TwCode)
 
     }
 

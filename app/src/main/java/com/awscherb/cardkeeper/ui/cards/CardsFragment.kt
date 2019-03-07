@@ -19,6 +19,8 @@ import com.google.zxing.BarcodeFormat
 import kotlinx.android.synthetic.main.fragment_cards.*
 import javax.inject.Inject
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.awscherb.cardkeeper.data.model.TWSuperMarketCode
+import com.awscherb.cardkeeper.data.model.TwCode
 import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
 import mlkit.BarCode
 
@@ -72,14 +74,15 @@ class CardsFragment : BaseFragment(), CardsContract.View {
 
         if (requestCode == CardsActivity.REQUEST_GET_CODE && resultCode == RESULT_OK) {
 
-            val codeaList = data!!.getParcelableArrayListExtra<BarCode>("QRCODE")
-            codeaList.forEach {
-                val scannedCode = ScannedCode()
-                scannedCode.format = it.barcodeFormat
-                scannedCode.text = it.rawValue
-                scannedCode.title = it.displayValue
-                presenter.addNewCard(scannedCode)
-            }
+            val code = data!!.getParcelableExtra<TWSuperMarketCode>("TWCODE")
+            var twCode = TwCode()
+            twCode.code9 = code.code9!!.rawValue
+            twCode.code15 = code.code15!!.rawValue
+            twCode.code16 = code.code16!!.rawValue
+            twCode.format = code.code9!!.barcodeFormat
+
+            presenter.addNewCard(twCode)
+
 
 //            val scannedCode = ScannedCode()
 //            scannedCode.text = data!!.getStringExtra(ScanFragment.EXTRA_BARCODE_TEXT)
@@ -107,12 +110,12 @@ class CardsFragment : BaseFragment(), CardsContract.View {
     // View methods
     //================================================================================
 
-    override fun showCards(codes: List<ScannedCode>) {
+    override fun showCards(codes: List<TwCode>) {
         scannedCodeAdapter.swapObjects(codes)
     }
 
-    override fun onCardAdded(code: ScannedCode) {
-        showSnackbar(getString(R.string.fragment_cards_added_card, code.title))
+    override fun onCardAdded(code: TwCode) {
+        showSnackbar(getString(R.string.fragment_cards_added_card, code.code9))
     }
 
     override fun onCardDeleted() {

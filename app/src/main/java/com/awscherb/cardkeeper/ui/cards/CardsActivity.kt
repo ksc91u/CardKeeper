@@ -31,23 +31,6 @@ class CardsActivity(): BaseActivity() {
         setUpToolbar()
         setTitle("CardKeeper")
 
-        object: Thread() {
-            override fun run() {
-                twCodeDao.insertCode(TwCode().apply {
-                    code15="151515"
-                    code16 = "161616"
-                    code9 = "090909"
-                    format = BarcodeFormat.CODE_39
-                })
-
-                twCodeDao.listScannedCodes().subscribe{
-                    it.forEach {
-                        println(">>>>> ${it.code15}, ${it.code16}, ${it.code9}, ${it.format}")
-                    }
-                }
-            }
-        }.start()
-
         cardsFab.setOnClickListener {
             supportFragmentManager.findFragmentById(R.id.container)?.startActivityForResult(
                 Intent(this, LivePreviewActivity::class.java), REQUEST_GET_CODE
