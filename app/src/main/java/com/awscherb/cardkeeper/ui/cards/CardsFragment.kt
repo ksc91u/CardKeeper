@@ -3,26 +3,20 @@ package com.awscherb.cardkeeper.ui.cards
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.awscherb.cardkeeper.R
-import com.awscherb.cardkeeper.data.model.ScannedCode
+import com.awscherb.cardkeeper.data.model.TWSuperMarketCode
+import com.awscherb.cardkeeper.data.model.TwCode
 import com.awscherb.cardkeeper.ui.base.BaseFragment
 import com.awscherb.cardkeeper.ui.card_detail.CardDetailActivity
 import com.awscherb.cardkeeper.ui.listener.RecyclerItemClickListener
-import com.awscherb.cardkeeper.ui.scan.ScanFragment
-import com.google.zxing.BarcodeFormat
+import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_cards.*
 import javax.inject.Inject
-import androidx.recyclerview.widget.ItemTouchHelper
-import com.awscherb.cardkeeper.data.model.TWSuperMarketCode
-import com.awscherb.cardkeeper.data.model.TwCode
-import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
-import mlkit.BarCode
 
 
 class CardsFragment : BaseFragment(), CardsContract.View {
@@ -44,9 +38,9 @@ class CardsFragment : BaseFragment(), CardsContract.View {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.fragment_cards, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -133,18 +127,19 @@ class CardsFragment : BaseFragment(), CardsContract.View {
     private fun setupRecycler() {
         layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         scannedCodeAdapter = CardsAdapter(activity!!, presenter) { code ->
-//            AlertDialog.Builder(requireContext())
-//                .setTitle(R.string.adapter_scanned_code_delete_message)
-//                .setPositiveButton(R.string.action_delete) { _, _ ->
-//                    presenter.deleteCard(code)
-//                }
-//                .setNegativeButton(R.string.action_cancel, null)
-//                .show()
-            presenter.deleteCard(code)
+            AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.adapter_scanned_code_delete_message)
+                    .setPositiveButton(R.string.action_delete) { _, _ ->
+                        presenter.deleteCard(code)
+                    }
+                    .setNegativeButton(R.string.action_cancel) { _, _ ->
+                        scannedCodeAdapter.notifyDataSetChanged()
+                    }
+                    .show()
         }
 
-        val callback = RVHItemTouchHelperCallback(scannedCodeAdapter, true, false,
-                false)
+        val callback = RVHItemTouchHelperCallback(scannedCodeAdapter, false, false,
+                true)
         val helper = ItemTouchHelper(callback)
         helper.attachToRecyclerView(cardsRecycler)
 
@@ -154,22 +149,22 @@ class CardsFragment : BaseFragment(), CardsContract.View {
 
     private fun setupListeners() {
         cardsRecycler.addOnItemTouchListener(
-            RecyclerItemClickListener(activity!!,
-                object : RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View, position: Int) {
-                        startActivity(
-                            Intent(activity, CardDetailActivity::class.java)
-                                .apply {
-                                    putExtra(
-                                        CardDetailActivity.EXTRA_CARD_ID,
-                                        scannedCodeAdapter[position].id
-                                    )
-                                }
-                        )
-                    }
+                RecyclerItemClickListener(activity!!,
+                        object : RecyclerItemClickListener.OnItemClickListener {
+                            override fun onItemClick(view: View, position: Int) {
+                                startActivity(
+                                        Intent(activity, CardDetailActivity::class.java)
+                                                .apply {
+                                                    putExtra(
+                                                            CardDetailActivity.EXTRA_CARD_ID,
+                                                            scannedCodeAdapter[position].id
+                                                    )
+                                                }
+                                )
+                            }
 
-                }
-            )
+                        }
+                )
         )
     }
 

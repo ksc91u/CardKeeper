@@ -23,7 +23,7 @@ class CardsAdapter constructor(
         private val deleteListener: (TwCode) -> Unit
 ) : BaseAdapter<TwCode>(presenter), RVHAdapter {
     override fun onItemDismiss(position: Int, direction: Int) {
-        //deleteListener(objects[position])
+        deleteListener(objects[position])
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
