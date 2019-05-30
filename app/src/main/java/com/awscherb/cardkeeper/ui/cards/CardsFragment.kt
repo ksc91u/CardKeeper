@@ -2,6 +2,7 @@ package com.awscherb.cardkeeper.ui.cards
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +25,10 @@ class CardsFragment : BaseFragment(), CardsContract.View {
     @Inject
     internal lateinit var presenter: CardsContract.Presenter
 
-    private lateinit var layoutManager: androidx.recyclerview.widget.LinearLayoutManager
+    private lateinit var layoutManager: androidx.recyclerview.widget.GridLayoutManager
     private lateinit var scannedCodeAdapter: CardsAdapter
+
+    private var spanCount = 1
 
     //================================================================================
     // Lifecycle methods
@@ -35,6 +38,12 @@ class CardsFragment : BaseFragment(), CardsContract.View {
         super.onCreate(savedInstanceState)
 
         baseActivity.viewComponent().inject(this)
+
+        spanCount = if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            2
+        }else{
+            1
+        }
     }
 
     override fun onCreateView(
@@ -125,7 +134,7 @@ class CardsFragment : BaseFragment(), CardsContract.View {
     //================================================================================
 
     private fun setupRecycler() {
-        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        layoutManager = androidx.recyclerview.widget.GridLayoutManager(activity, spanCount)
         scannedCodeAdapter = CardsAdapter(activity!!, presenter) { code ->
             AlertDialog.Builder(requireContext())
                     .setTitle(R.string.adapter_scanned_code_delete_message)
