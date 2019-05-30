@@ -71,7 +71,7 @@ class CardsFragment : BaseFragment(), CardsContract.View {
             val code = data!!.getParcelableExtra<TWSuperMarketCode>("TWCODE")
             var twCode = TwCode()
             twCode.code9 = code.code9!!.rawValue
-            twCode.code15 = code.code15!!.rawValue
+            twCode.code15 = code.code15.map { it.rawValue }.toHashSet()
             twCode.code16 = code.code16!!.rawValue
             twCode.format = code.code9!!.barcodeFormat
 

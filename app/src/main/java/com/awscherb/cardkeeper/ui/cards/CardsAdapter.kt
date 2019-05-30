@@ -1,6 +1,7 @@
 package com.awscherb.cardkeeper.ui.cards
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
@@ -57,22 +58,30 @@ class CardsAdapter constructor(
 
         holder.itemView.apply {
 
+            codeData15a.visibility = View.GONE
+            codeImage15a.visibility = View.GONE
             // Set title
             codeData9.text = item.code9
             codeData16.text = item.code16
-            codeData15.text = item.code15
+            codeData15.text = item.code15.first()
+            if(item.code15.size > 1) {
+                codeData15a.text = item.code15.last()
+                codeData15a.visibility = View.VISIBLE
+            }
 
             // Set image scaleType according to barcode type
             when (item.format) {
                 QR_CODE, AZTEC, DATA_MATRIX -> {
                     codeImage9.scaleType = ImageView.ScaleType.FIT_CENTER
                     codeImage15.scaleType = ImageView.ScaleType.FIT_CENTER
+                    codeImage15a.scaleType = ImageView.ScaleType.FIT_CENTER
                     codeImage16.scaleType = ImageView.ScaleType.FIT_CENTER
                 }
                 else -> {
                     codeImage9.scaleType = ImageView.ScaleType.FIT_XY
                     codeImage16.scaleType = ImageView.ScaleType.FIT_XY
                     codeImage15.scaleType = ImageView.ScaleType.FIT_XY
+                    codeImage15a.scaleType = ImageView.ScaleType.FIT_XY
                 }
             }
 
@@ -86,8 +95,15 @@ class CardsAdapter constructor(
                             encoder.encodeBitmap(item.code16, BarcodeFormat.CODE_128, 200, 200)
                     )
                     codeImage15.setImageBitmap(
-                            encoder.encodeBitmap(item.code15, BarcodeFormat.CODE_128, 200, 200)
+                            encoder.encodeBitmap(item.code15.first(), BarcodeFormat.CODE_128, 200, 200)
                     )
+                    if(item.code15.size > 1) {
+                        codeImage15a.setImageBitmap(
+                                encoder.encodeBitmap(item.code15.last(), BarcodeFormat.CODE_128, 200, 200)
+                        )
+                        codeImage15a.visibility = View.VISIBLE
+                    }
+
                 }else{
                     codeImage9.setImageBitmap(
                             encoder.encodeBitmap(item.code9, item.format.toZxing(), 200, 200)
@@ -96,8 +112,14 @@ class CardsAdapter constructor(
                             encoder.encodeBitmap(item.code16, item.format.toZxing(), 200, 200)
                     )
                     codeImage15.setImageBitmap(
-                            encoder.encodeBitmap(item.code15, item.format.toZxing(), 200, 200)
+                            encoder.encodeBitmap(item.code15.first(), item.format.toZxing(), 200, 200)
                     )
+                    if(item.code15.size > 1) {
+                        codeImage15a.setImageBitmap(
+                                encoder.encodeBitmap(item.code15.last(), item.format.toZxing(), 200, 200)
+                        )
+                        codeImage15a.visibility = View.VISIBLE
+                    }
                 }
             } catch (e: WriterException) {
                 e.printStackTrace()

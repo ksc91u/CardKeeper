@@ -2,6 +2,7 @@ package com.awscherb.cardkeeper.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 import mlkit.BarcodeFormat
 
 @Entity(tableName = "scannedCode")
@@ -20,6 +21,6 @@ class TwCode: BaseModel() {
     lateinit var format: BarcodeFormat
     lateinit var code9: String
     lateinit var code16: String
-    lateinit var code15: String
+    lateinit var code15: HashSet<String>
     var created: Long = 0
 }

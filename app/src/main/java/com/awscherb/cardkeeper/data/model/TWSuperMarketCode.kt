@@ -6,9 +6,11 @@ import mlkit.BarCode
 import mlkit.BarcodeFormat
 
 @Parcelize
-data class TWSuperMarketCode(var code9: BarCode? = null,
-                             var code16: BarCode? = null,
-                             var code15: BarCode? = null) : Parcelable {
+data class TWSuperMarketCode(
+        var code15: HashSet<BarCode> = HashSet(),
+        var code9: BarCode? = null,
+        var code16: BarCode? = null
+        ) : Parcelable {
 
     fun addCodes(list: List<BarCode>) {
         list.filter {
@@ -20,13 +22,13 @@ data class TWSuperMarketCode(var code9: BarCode? = null,
             if (it.rawValue.length == 16 && code16 == null) {
                 code16 = it
             }
-            if (it.rawValue.length == 15 && code15 == null) {
-                code15 = it
+            if (it.rawValue.length == 15) {
+                code15.add(it)
             }
         }
     }
 
     fun isComplete(): Boolean {
-        return (code9 != null && code16 != null && code15 != null)
+        return (code9 != null && code16 != null && code15.size > 0)
     }
 }
