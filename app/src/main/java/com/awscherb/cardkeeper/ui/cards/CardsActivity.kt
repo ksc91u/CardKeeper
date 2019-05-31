@@ -8,6 +8,8 @@ import com.awscherb.cardkeeper.data.dao.TwCodeDao
 import com.awscherb.cardkeeper.data.model.TwCode
 import com.awscherb.cardkeeper.ui.base.BaseActivity
 import com.awscherb.cardkeeper.ui.scan.ScanActivity
+import com.crashlytics.android.Crashlytics
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_cards.*
 import mlkit.BarcodeFormat
 import mlkit.LivePreviewActivity
