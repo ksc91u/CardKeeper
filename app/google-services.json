@@ -1,39 +1,37 @@
 {
   "project_info": {
-    "project_number": "947825231677",
-    "firebase_url": "https://bill-scanner-9bf15.firebaseio.com",
-    "project_id": "bill-scanner-9bf15",
-    "storage_bucket": "bill-scanner-9bf15.appspot.com"
+    "project_number": "591257952305",
+    "firebase_url": "https://mlkit-6a719.firebaseio.com",
+    "project_id": "mlkit-6a719",
+    "storage_bucket": "mlkit-6a719.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:947825231677:android:0c48ae466293518b",
+        "mobilesdk_app_id": "1:591257952305:android:a3a6f019ea27a326",
         "android_client_info": {
-          "package_name": "com.ksc91u.billscanner"
+          "package_name": "com.ksc91u.billscanner.dev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "947825231677-38fc26u9e1tdmn60io9rtckq0354sh3d.apps.googleusercontent.com",
+          "client_id": "591257952305-qbr90a4fct7cjnv6114afgjh62csqhd6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDFW9DouglRCNVbZ6M0Xd2UzsiRR_16XNE"
+          "current_key": "AIzaSyBMRLuuFi9FRrRU7vL77ffrT2qLgizNAn8"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591257952305-qbr90a4fct7cjnv6114afgjh62csqhd6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -32,7 +32,7 @@
       android:paddingLeft="80dp"
       android:textColor="#FFF"
       android:textSize="20sp"
-      android:textStyle="bold" />
+      />
 
   <FrameLayout
       android:id="@+id/control"
