@@ -35,7 +35,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:src="@android:drawable/ic_menu_edit"
-        android:visibility="gone"
+        android:visibility="visible"
         app:fabSize="normal"
         app:layout_anchor="@+id/container"
         app:layout_anchorGravity="bottom|left|start" />

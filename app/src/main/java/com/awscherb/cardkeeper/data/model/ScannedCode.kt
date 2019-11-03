@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import mlkit.BarcodeFormat
+import java.util.*
+import kotlin.collections.HashSet
 
 @Entity(tableName = "scannedCode")
 class ScannedCode: BaseModel() {
@@ -23,4 +25,17 @@ class TwCode: BaseModel() {
     lateinit var code16: String
     lateinit var code15: HashSet<String>
     var created: Long = 0
+
+    fun payment () :Pair<Int, Int>{
+        val sorted = code15.map {
+            it.substring(9).toInt()
+        }.sorted()
+        return Pair(sorted.min()?:0, sorted.max()?:0)
+    }
+
+    fun sortedCode() : List<String>{
+        return code15.sortedBy {
+            it.substring(9).toInt()
+        }
+    }
 }

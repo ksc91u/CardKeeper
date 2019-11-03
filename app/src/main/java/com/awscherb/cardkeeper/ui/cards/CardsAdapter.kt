@@ -7,7 +7,6 @@ import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.awscherb.cardkeeper.R
-import com.awscherb.cardkeeper.data.model.ScannedCode
 import com.awscherb.cardkeeper.data.model.TwCode
 import com.awscherb.cardkeeper.ui.base.BaseAdapter
 import com.google.zxing.BarcodeFormat
@@ -19,9 +18,9 @@ import kotlinx.android.synthetic.main.adapter_code.view.*
 
 
 class CardsAdapter constructor(
-        private val context: FragmentActivity,
-        presenter: CardsContract.Presenter,
-        private val deleteListener: (TwCode) -> Unit
+    private val context: FragmentActivity,
+    presenter: CardsContract.Presenter,
+    private val deleteListener: (TwCode) -> Unit
 ) : BaseAdapter<TwCode>(presenter), RVHAdapter {
     override fun onItemDismiss(position: Int, direction: Int) {
         deleteListener(objects[position])
@@ -34,7 +33,7 @@ class CardsAdapter constructor(
     }
 
     private val encoder: BarcodeEncoder = BarcodeEncoder()
-    private var code128: Boolean = false
+    private var payAll: Boolean = false
 
     //================================================================================
     // Adapter methods
@@ -42,11 +41,11 @@ class CardsAdapter constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return object : RecyclerView.ViewHolder(
-                LayoutInflater.from(context).inflate(
-                        R.layout.adapter_code,
-                        parent,
-                        false
-                )
+            LayoutInflater.from(context).inflate(
+                R.layout.adapter_code,
+                parent,
+                false
+            )
         ) {}
     }
 
@@ -63,11 +62,13 @@ class CardsAdapter constructor(
             // Set title
             codeData9.text = item.code9
             codeData16.text = item.code16
-            codeData15.text = item.code15.first()
-            if(item.code15.size > 1) {
-                codeData15a.text = item.code15.last()
-                codeData15a.visibility = View.VISIBLE
-            }
+            codeData15.text = if (payAll) (item.sortedCode().first() + "/" + item.payment().first) + " 最低"
+            else (item.sortedCode().last() + "/" + item.payment().second) + " 拳腳"
+
+//            if (item.code15.size > 1) {
+//                codeData15a.text = item.sortedCode().last() + "/" + item.payment().second
+//                codeData15a.visibility = View.VISIBLE
+//            }
 
             // Set image scaleType according to barcode type
             when (item.format) {
@@ -87,53 +88,56 @@ class CardsAdapter constructor(
 
             // Load image
             try {
-                if(code128){
-                    codeImage9.setImageBitmap(
-                            encoder.encodeBitmap(item.code9, BarcodeFormat.CODE_128, 200, 200)
+                codeImage9.setImageBitmap(
+                    encoder.encodeBitmap(item.code9, item.format.toZxing(), 200, 200)
+                )
+                codeImage16.setImageBitmap(
+                    encoder.encodeBitmap(item.code16, item.format.toZxing(), 200, 200)
+                )
+                codeImage15.setImageBitmap(
+                    encoder.encodeBitmap(
+                        if (payAll) item.sortedCode().first() else item.sortedCode().last(),
+                        item.format.toZxing(),
+                        200,
+                        200
                     )
-                    codeImage16.setImageBitmap(
-                            encoder.encodeBitmap(item.code16, BarcodeFormat.CODE_128, 200, 200)
-                    )
-                    codeImage15.setImageBitmap(
-                            encoder.encodeBitmap(item.code15.first(), BarcodeFormat.CODE_128, 200, 200)
-                    )
-                    if(item.code15.size > 1) {
-                        codeImage15a.setImageBitmap(
-                                encoder.encodeBitmap(item.code15.last(), BarcodeFormat.CODE_128, 200, 200)
-                        )
-                        codeImage15a.visibility = View.VISIBLE
-                    }
+                )
+//                if (item.code15.size > 1) {
+//                    codeImage15a.setImageBitmap(
+//                        encoder.encodeBitmap(
+//                            item.sortedCode().last(),
+//                            item.format.toZxing(),
+//                            200,
+//                            200
+//                        )
+//                    )
+//                    codeImage15a.visibility = View.VISIBLE
+//                }else{
+//                    codeImage15a.visibility = View.GONE
+//                    codeData15a.visibility = View.GONE
+//                }
 
-                }else{
-                    codeImage9.setImageBitmap(
-                            encoder.encodeBitmap(item.code9, item.format.toZxing(), 200, 200)
-                    )
-                    codeImage16.setImageBitmap(
-                            encoder.encodeBitmap(item.code16, item.format.toZxing(), 200, 200)
-                    )
-                    codeImage15.setImageBitmap(
-                            encoder.encodeBitmap(item.code15.first(), item.format.toZxing(), 200, 200)
-                    )
-                    if(item.code15.size > 1) {
-                        codeImage15a.setImageBitmap(
-                                encoder.encodeBitmap(item.code15.last(), item.format.toZxing(), 200, 200)
-                        )
-                        codeImage15a.visibility = View.VISIBLE
-                    }
-                }
+//                if (payAll) {
+//                    codeImage15a.visibility = View.VISIBLE
+//                    codeData15a.visibility = View.VISIBLE
+//                    codeImage15.visibility = View.GONE
+//                    codeData15.visibility = View.GONE
+//                } else {
+//                    codeImage15a.visibility = View.GONE
+//                    codeData15a.visibility = View.GONE
+//                    codeImage15.visibility = View.VISIBLE
+//                    codeData15.visibility = View.VISIBLE
+//                }
             } catch (e: WriterException) {
                 e.printStackTrace()
             }
-
         }
-
 
     }
 
     fun switch() {
-        code128 = !code128
+        payAll = !payAll
         notifyDataSetChanged()
     }
-
 
 }

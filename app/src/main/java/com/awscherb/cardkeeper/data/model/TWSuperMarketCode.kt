@@ -7,9 +7,9 @@ import mlkit.BarcodeFormat
 
 @Parcelize
 data class TWSuperMarketCode(
-        var code15: HashSet<BarCode> = HashSet(),
-        var code9: BarCode? = null,
-        var code16: BarCode? = null
+    var code15: HashSet<BarCode> = HashSet(),
+    var code9: BarCode? = null,
+    var code16: BarCode? = null
         ) : Parcelable {
 
     fun addCodes(list: List<BarCode>) {
