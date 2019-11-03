@@ -65,10 +65,6 @@ class CardsAdapter constructor(
             codeData15.text = if (payAll) (item.sortedCode().first() + "/" + item.payment().first) + " 最低"
             else (item.sortedCode().last() + "/" + item.payment().second) + " 拳腳"
 
-//            if (item.code15.size > 1) {
-//                codeData15a.text = item.sortedCode().last() + "/" + item.payment().second
-//                codeData15a.visibility = View.VISIBLE
-//            }
 
             // Set image scaleType according to barcode type
             when (item.format) {
@@ -102,32 +98,6 @@ class CardsAdapter constructor(
                         200
                     )
                 )
-//                if (item.code15.size > 1) {
-//                    codeImage15a.setImageBitmap(
-//                        encoder.encodeBitmap(
-//                            item.sortedCode().last(),
-//                            item.format.toZxing(),
-//                            200,
-//                            200
-//                        )
-//                    )
-//                    codeImage15a.visibility = View.VISIBLE
-//                }else{
-//                    codeImage15a.visibility = View.GONE
-//                    codeData15a.visibility = View.GONE
-//                }
-
-//                if (payAll) {
-//                    codeImage15a.visibility = View.VISIBLE
-//                    codeData15a.visibility = View.VISIBLE
-//                    codeImage15.visibility = View.GONE
-//                    codeData15.visibility = View.GONE
-//                } else {
-//                    codeImage15a.visibility = View.GONE
-//                    codeData15a.visibility = View.GONE
-//                    codeImage15.visibility = View.VISIBLE
-//                    codeData15.visibility = View.VISIBLE
-//                }
             } catch (e: WriterException) {
                 e.printStackTrace()
             }
