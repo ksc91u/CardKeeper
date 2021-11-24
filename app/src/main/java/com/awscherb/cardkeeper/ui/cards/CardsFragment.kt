@@ -17,6 +17,7 @@ import com.awscherb.cardkeeper.ui.card_detail.CardDetailActivity
 import com.awscherb.cardkeeper.ui.listener.RecyclerItemClickListener
 import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_cards.*
+import mlkit.BarcodeFormat
 import javax.inject.Inject
 
 
@@ -79,10 +80,10 @@ class CardsFragment : BaseFragment(), CardsContract.View {
 
             val code = data!!.getParcelableExtra<TWSuperMarketCode>("TWCODE")
             var twCode = TwCode()
-            twCode.code9 = code.code9!!.rawValue
-            twCode.code15 = code.code15.map { it.rawValue }.toHashSet()
-            twCode.code16 = code.code16!!.rawValue
-            twCode.format = code.code9!!.barcodeFormat
+            twCode.code9 = code?.code9?.rawValue?:""
+            twCode.code15 = code?.code15?.map { it.rawValue }?.toHashSet()?: hashSetOf<String>()
+            twCode.code16 = code?.code16?.rawValue?:""
+            twCode.format = code?.code9?.barcodeFormat?:BarcodeFormat.CODE_39
 
             presenter.addNewCard(twCode)
 

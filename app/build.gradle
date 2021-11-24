@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 
 androidExtensions {
     experimental = true
@@ -24,7 +24,6 @@ android {
     }
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.ksc91u.billscanner"
@@ -76,6 +75,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
     testImplementation "junit:junit:$rootProject.junitVersion"
 
     // Support libs
@@ -91,10 +92,10 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
 
     // Room
-    implementation 'androidx.room:room-runtime:2.1.0-rc01'
-    implementation 'androidx.room:room-rxjava2:2.1.0-rc01'
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
-    kapt 'androidx.room:room-compiler:2.1.0-rc01'
+    implementation 'androidx.room:room-runtime:2.4.0-beta02'
+    implementation 'androidx.room:room-rxjava2:2.4.0-beta02'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.4.0'
+    kapt 'androidx.room:room-compiler:2.4.0-beta02'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlinVersion"
@@ -119,8 +120,7 @@ dependencies {
     implementation"com.google.dagger:dagger:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
-    // Fabric
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    // Fabric.,m ];'
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:$rootProject.ext.junitVersion"

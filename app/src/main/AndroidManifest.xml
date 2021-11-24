@@ -31,6 +31,7 @@
 
         <activity
             android:name=".ui.cards.CardsActivity"
+            android:exported="true"
             android:label="@string/title_activity_cards">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

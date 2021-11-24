@@ -30,7 +30,7 @@ class TwCode: BaseModel() {
         val sorted = code15.map {
             it.substring(9).toInt()
         }.sorted()
-        return Pair(sorted.min()?:0, sorted.max()?:0)
+        return Pair(sorted.minOrNull()?:0, sorted.maxOrNull()?:0)
     }
 
     fun sortedCode() : List<String>{

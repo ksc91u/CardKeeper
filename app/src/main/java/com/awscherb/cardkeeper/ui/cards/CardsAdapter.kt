@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.TwCode
 import com.awscherb.cardkeeper.ui.base.BaseAdapter
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.BarcodeFormat.*
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import github.nisrulz.recyclerviewhelper.RVHAdapter
 import kotlinx.android.synthetic.main.adapter_code.view.*
+import mlkit.BarcodeFormat
 
 
 class CardsAdapter constructor(
@@ -68,7 +67,7 @@ class CardsAdapter constructor(
 
             // Set image scaleType according to barcode type
             when (item.format) {
-                QR_CODE, AZTEC, DATA_MATRIX -> {
+                BarcodeFormat.QR_CODE, BarcodeFormat.AZTEC, BarcodeFormat.DATA_MATRIX -> {
                     codeImage9.scaleType = ImageView.ScaleType.FIT_CENTER
                     codeImage15.scaleType = ImageView.ScaleType.FIT_CENTER
                     codeImage15a.scaleType = ImageView.ScaleType.FIT_CENTER
