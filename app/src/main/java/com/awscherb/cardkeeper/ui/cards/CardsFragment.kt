@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.TWSuperMarketCode
 import com.awscherb.cardkeeper.data.model.TwCode
+import com.awscherb.cardkeeper.databinding.FragmentCardsBinding
 import com.awscherb.cardkeeper.ui.base.BaseFragment
 import com.awscherb.cardkeeper.ui.card_detail.CardDetailActivity
 import com.awscherb.cardkeeper.ui.listener.RecyclerItemClickListener
 import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
-import kotlinx.android.synthetic.main.fragment_cards.*
 import mlkit.BarcodeFormat
 import javax.inject.Inject
 
-
-class CardsFragment : BaseFragment(), CardsContract.View {
+class CardsFragment: BaseFragment<FragmentCardsBinding>(
+    { inflater -> FragmentCardsBinding.inflate(inflater) }
+), CardsContract.View {
 
     @Inject
     internal lateinit var presenter: CardsContract.Presenter
@@ -40,18 +41,12 @@ class CardsFragment : BaseFragment(), CardsContract.View {
 
         baseActivity.viewComponent().inject(this)
 
-        spanCount = if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        spanCount = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             2
-        }else{
+        } else {
             1
         }
     }
-
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_cards, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +55,6 @@ class CardsFragment : BaseFragment(), CardsContract.View {
         setupListeners()
 
         presenter.attachView(this)
-
     }
 
     override fun onResume() {
@@ -80,13 +74,12 @@ class CardsFragment : BaseFragment(), CardsContract.View {
 
             val code = data!!.getParcelableExtra<TWSuperMarketCode>("TWCODE")
             var twCode = TwCode()
-            twCode.code9 = code?.code9?.rawValue?:""
-            twCode.code15 = code?.code15?.map { it.rawValue }?.toHashSet()?: hashSetOf<String>()
-            twCode.code16 = code?.code16?.rawValue?:""
-            twCode.format = code?.code9?.barcodeFormat?:BarcodeFormat.CODE_39
+            twCode.code9 = code?.code9?.rawValue ?: ""
+            twCode.code15 = code?.code15?.map { it.rawValue }?.toHashSet() ?: hashSetOf<String>()
+            twCode.code16 = code?.code16?.rawValue ?: ""
+            twCode.format = code?.code9?.barcodeFormat ?: BarcodeFormat.CODE_39
 
             presenter.addNewCard(twCode)
-
 
 //            val scannedCode = ScannedCode()
 //            scannedCode.text = data!!.getStringExtra(ScanFragment.EXTRA_BARCODE_TEXT)
@@ -136,45 +129,48 @@ class CardsFragment : BaseFragment(), CardsContract.View {
 
     private fun setupRecycler() {
         layoutManager = androidx.recyclerview.widget.GridLayoutManager(activity, spanCount)
-        scannedCodeAdapter = CardsAdapter(activity!!, presenter) { code ->
+        scannedCodeAdapter = CardsAdapter(requireActivity(), presenter) { code ->
             AlertDialog.Builder(requireContext())
-                    .setTitle(R.string.adapter_scanned_code_delete_message)
-                    .setPositiveButton(R.string.action_delete) { _, _ ->
-                        presenter.deleteCard(code)
-                    }
-                    .setNegativeButton(R.string.action_cancel) { _, _ ->
-                        scannedCodeAdapter.notifyDataSetChanged()
-                    }
-                    .show()
+                .setTitle(R.string.adapter_scanned_code_delete_message)
+                .setPositiveButton(R.string.action_delete) { _, _ ->
+                    presenter.deleteCard(code)
+                }
+                .setNegativeButton(R.string.action_cancel) { _, _ ->
+                    scannedCodeAdapter.notifyDataSetChanged()
+                }
+                .show()
         }
 
-        val callback = RVHItemTouchHelperCallback(scannedCodeAdapter, false, false,
-                true)
+        val callback = RVHItemTouchHelperCallback(
+            scannedCodeAdapter, false, false,
+            true
+        )
         val helper = ItemTouchHelper(callback)
-        helper.attachToRecyclerView(cardsRecycler)
+        with(binding) {
+            helper.attachToRecyclerView(cardsRecycler)
 
-        cardsRecycler.layoutManager = layoutManager
-        cardsRecycler.adapter = scannedCodeAdapter
+            cardsRecycler.layoutManager = layoutManager
+            cardsRecycler.adapter = scannedCodeAdapter
+        }
     }
 
     private fun setupListeners() {
-        cardsRecycler.addOnItemTouchListener(
-                RecyclerItemClickListener(activity!!,
-                        object : RecyclerItemClickListener.OnItemClickListener {
-                            override fun onItemClick(view: View, position: Int) {
-                                startActivity(
-                                        Intent(activity, CardDetailActivity::class.java)
-                                                .apply {
-                                                    putExtra(
-                                                            CardDetailActivity.EXTRA_CARD_ID,
-                                                            scannedCodeAdapter[position].id
-                                                    )
-                                                }
-                                )
-                            }
-
-                        }
-                )
+        binding.cardsRecycler.addOnItemTouchListener(
+            RecyclerItemClickListener(requireActivity(),
+                object: RecyclerItemClickListener.OnItemClickListener {
+                    override fun onItemClick(view: View, position: Int) {
+                        startActivity(
+                            Intent(activity, CardDetailActivity::class.java)
+                                .apply {
+                                    putExtra(
+                                        CardDetailActivity.EXTRA_CARD_ID,
+                                        scannedCodeAdapter[position].id
+                                    )
+                                }
+                        )
+                    }
+                }
+            )
         )
     }
 

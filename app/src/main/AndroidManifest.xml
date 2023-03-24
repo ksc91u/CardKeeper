@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.awscherb.cardkeeper">
 
-    <meta-data
-        android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-        android:value="barcode"/>
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature

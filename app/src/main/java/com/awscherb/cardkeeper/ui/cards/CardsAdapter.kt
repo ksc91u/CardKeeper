@@ -6,21 +6,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.TwCode
+import com.awscherb.cardkeeper.databinding.AdapterCodeBinding
 import com.awscherb.cardkeeper.ui.base.BaseAdapter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import github.nisrulz.recyclerviewhelper.RVHAdapter
-import kotlinx.android.synthetic.main.adapter_code.view.*
 import mlkit.BarcodeFormat
 
+class CardViewHolder(
+    val binding: AdapterCodeBinding
+): RecyclerView.ViewHolder(binding.root)
 
 class CardsAdapter constructor(
     private val context: FragmentActivity,
     presenter: CardsContract.Presenter,
     private val deleteListener: (TwCode) -> Unit
-) : BaseAdapter<TwCode>(presenter), RVHAdapter {
+): BaseAdapter<TwCode, CardViewHolder>(presenter), RVHAdapter {
     override fun onItemDismiss(position: Int, direction: Int) {
         deleteListener(objects[position])
     }
@@ -38,32 +40,32 @@ class CardsAdapter constructor(
     // Adapter methods
     //================================================================================
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return object : RecyclerView.ViewHolder(
-            LayoutInflater.from(context).inflate(
-                R.layout.adapter_code,
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
+        return CardViewHolder(
+            AdapterCodeBinding.inflate(
+                LayoutInflater.from(context),
                 parent,
                 false
             )
-        ) {}
+        )
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: TwCode) {
+    override fun onBindViewHolder(holder: CardViewHolder, item: TwCode) {
 //        val display = context.windowManager.defaultDisplay
 //        val metrics = DisplayMetrics()
 //        display.getMetrics(metrics)
 //        val widthPixel = metrics.widthPixels
 
-        holder.itemView.apply {
+        with(holder.binding) {
 
             codeData15a.visibility = View.GONE
             codeImage15a.visibility = View.GONE
             // Set title
             codeData9.text = item.code9
             codeData16.text = item.code16
-            codeData15.text = if (payAll) (item.sortedCode().first() + "/" + item.payment().first) + " 最低"
+            codeData15.text = if (payAll) (item.sortedCode()
+                .first() + "/" + item.payment().first) + " 最低"
             else (item.sortedCode().last() + "/" + item.payment().second) + " 拳腳"
-
 
             // Set image scaleType according to barcode type
             when (item.format) {
@@ -73,6 +75,7 @@ class CardsAdapter constructor(
                     codeImage15a.scaleType = ImageView.ScaleType.FIT_CENTER
                     codeImage16.scaleType = ImageView.ScaleType.FIT_CENTER
                 }
+
                 else -> {
                     codeImage9.scaleType = ImageView.ScaleType.FIT_XY
                     codeImage16.scaleType = ImageView.ScaleType.FIT_XY
@@ -101,12 +104,10 @@ class CardsAdapter constructor(
                 e.printStackTrace()
             }
         }
-
     }
 
     fun switch() {
         payAll = !payAll
         notifyDataSetChanged()
     }
-
 }

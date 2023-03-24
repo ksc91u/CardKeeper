@@ -5,28 +5,21 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.PermissionChecker
-import com.awscherb.cardkeeper.R
+import com.awscherb.cardkeeper.databinding.FragmentScanBinding
 import com.awscherb.cardkeeper.ui.base.BaseFragment
 import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
-import kotlinx.android.synthetic.main.fragment_scan.*
 
-class ScanFragment : BaseFragment() {
+class ScanFragment: BaseFragment<FragmentScanBinding>(
+    { inflater -> FragmentScanBinding.inflate(inflater) }
+) {
 
     //================================================================================
     // Lifecycle methods
     //================================================================================
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_scan, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,7 +27,7 @@ class ScanFragment : BaseFragment() {
         // Check permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (activity?.checkSelfPermission(Manifest.permission.CAMERA) == PermissionChecker.PERMISSION_GRANTED) {
-                scanScanner.resume()
+                binding.scanScanner.resume()
             } else {
                 requestPermissions(
                     arrayOf(Manifest.permission.CAMERA),
@@ -49,12 +42,12 @@ class ScanFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        scanScanner.resume()
+        binding.scanScanner.resume()
     }
 
     override fun onPause() {
         super.onPause()
-        scanScanner.pause()
+        binding.scanScanner.pause()
     }
 
     // ========================================================================
@@ -62,7 +55,7 @@ class ScanFragment : BaseFragment() {
     // ========================================================================
 
     private fun setCallback() {
-        val callback = object : BarcodeCallback {
+        val callback = object: BarcodeCallback {
             override fun barcodeResult(result: BarcodeResult) {
                 activity?.run {
                     setResult(RESULT_OK, Intent().apply {
@@ -76,9 +69,8 @@ class ScanFragment : BaseFragment() {
             override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
         }
 
-        scanScanner.decodeContinuous(callback)
+        binding.scanScanner.decodeContinuous(callback)
     }
-
 
     companion object {
         private const val TAG = "ScanFragment"
@@ -87,5 +79,4 @@ class ScanFragment : BaseFragment() {
 
         private const val REQUEST_CAMERA = 16
     }
-
 }

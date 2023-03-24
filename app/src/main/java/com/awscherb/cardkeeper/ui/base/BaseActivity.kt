@@ -1,11 +1,11 @@
 package com.awscherb.cardkeeper.ui.base
 
-
 import androidx.appcompat.widget.Toolbar
+import androidx.viewbinding.ViewBinding
 import com.awscherb.cardkeeper.R
 import com.trello.rxlifecycle3.components.support.RxAppCompatActivity
 
-abstract class BaseActivity : RxAppCompatActivity() {
+abstract class BaseActivity: RxAppCompatActivity() {
 
     private var toolbar: Toolbar? = null
 
@@ -13,7 +13,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
     // Lifecycle methods
     //================================================================================
 
-    protected fun insertFragment(fragment: BaseFragment) {
+    protected fun <T: ViewBinding> insertFragment(fragment: BaseFragment<T>) {
         val fragmentManager = supportFragmentManager
         val fragmentContainer = fragmentManager.findFragmentById(R.id.container)
 
@@ -47,5 +47,4 @@ abstract class BaseActivity : RxAppCompatActivity() {
     }
 
     fun viewComponent() = (application as CardKeeperApplication).viewComponent
-
 }
