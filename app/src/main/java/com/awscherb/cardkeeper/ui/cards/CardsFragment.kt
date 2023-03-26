@@ -4,9 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.awscherb.cardkeeper.R
@@ -52,7 +50,7 @@ class CardsFragment: BaseFragment<FragmentCardsBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         setupRecycler()
-        setupListeners()
+//        setupListeners()
 
         presenter.attachView(this)
     }
@@ -108,6 +106,7 @@ class CardsFragment: BaseFragment<FragmentCardsBinding>(
     //================================================================================
 
     override fun showCards(codes: List<TwCode>) {
+        binding.total.text = codes.sumOf { it.payment().second }.toString()
         scannedCodeAdapter.swapObjects(codes)
     }
 
