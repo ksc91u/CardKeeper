@@ -56,8 +56,17 @@ class CardsAdapter constructor(
 //        display.getMetrics(metrics)
 //        val widthPixel = metrics.widthPixels
 
+        val resources = holder.binding.root.context.resources
         with(holder.binding) {
-
+            if (item.isCreditCard.not()) {
+                holder.binding.adapterCodeCardView.setBackgroundColor(
+                    resources.getColor(android.R.color.holo_blue_light)
+                )
+            } else {
+                holder.binding.adapterCodeCardView.setBackgroundColor(
+                    resources.getColor(android.R.color.white)
+                )
+            }
             codeData15a.visibility = View.GONE
             codeImage15a.visibility = View.GONE
             // Set title

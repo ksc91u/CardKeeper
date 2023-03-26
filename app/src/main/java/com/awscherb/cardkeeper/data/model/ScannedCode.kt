@@ -24,6 +24,7 @@ class TwCode: BaseModel() {
     lateinit var code9: String
     lateinit var code16: String
     lateinit var code15: HashSet<String>
+    var isCreditCard: Boolean = true
     var created: Long = 0
 
     fun payment () :Pair<Int, Int>{

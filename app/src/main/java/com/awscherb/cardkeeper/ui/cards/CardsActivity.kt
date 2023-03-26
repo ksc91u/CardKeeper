@@ -7,7 +7,7 @@ import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.dao.TwCodeDao
 import com.awscherb.cardkeeper.databinding.ActivityCardsBinding
 import com.awscherb.cardkeeper.ui.base.BaseActivity
-import mlkit.LivePreviewActivity
+import mlkit.barcodescanning.MultipleCodeScanActivity
 import javax.inject.Inject
 
 class CardsActivity(): BaseActivity() {
@@ -34,7 +34,16 @@ class CardsActivity(): BaseActivity() {
 
         binding.cardsFab.setOnClickListener {
             supportFragmentManager.findFragmentById(R.id.container)?.startActivityForResult(
-                Intent(this, LivePreviewActivity::class.java), REQUEST_GET_CODE
+                Intent(this, MultipleCodeScanActivity::class.java), REQUEST_GET_CODE
+            )
+        }
+
+        binding.billsFab.setOnClickListener {
+            supportFragmentManager.findFragmentById(R.id.container)?.startActivityForResult(
+                Intent(this, MultipleCodeScanActivity::class.java)
+                    .apply {
+                        putExtra("CHECKSUM", false)
+                    }, REQUEST_GET_CODE_BILL
             )
         }
 
@@ -48,5 +57,6 @@ class CardsActivity(): BaseActivity() {
 
     companion object {
         const val REQUEST_GET_CODE = 3
+        const val REQUEST_GET_CODE_BILL = 4
     }
 }
