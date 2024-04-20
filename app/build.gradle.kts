@@ -25,13 +25,13 @@ android {
         }
     }
 
-    compileSdkVersion(34)
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.awscherb.cardkeeper"
         multiDexEnabled = true
-        minSdkVersion(24)
-        targetSdkVersion(34)
+        minSdk = 24
+        targetSdk = 34
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         versionCode = 56
         versionName = "1.0"
@@ -69,8 +69,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
     }
 
-    packagingOptions {
-        exclude("META-INF/rxjava.properties")
+    packaging {
+        resources.excludes.add("META-INF/rxjava.properties")
     }
 
     buildFeatures {
@@ -130,9 +130,9 @@ dependencies {
     implementation("com.google.zxing:core:3.3.3")
     implementation("com.journeyapps:zxing-android-embedded:3.6.0@aar")
 
-    implementation("com.github.jenly1314.MLKit:mlkit-camera-core:1.3.0")
-    implementation("com.github.jenly1314.MLKit:mlkit-common:1.3.0")
-    implementation("com.github.jenly1314.MLKit:mlkit-barcode-scanning:1.3.0")
+    implementation("com.github.jenly1314.MLKit:mlkit-camera-core:1.4.0")
+    implementation("com.github.jenly1314.MLKit:mlkit-common:1.4.0")
+    implementation("com.github.jenly1314.MLKit:mlkit-barcode-scanning:1.4.0")
 
     // Dependency Injection
 //    implementation("com.google.dagger:dagger:2.48.1")
