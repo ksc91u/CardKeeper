@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.dao.TwCodeDao
-import com.awscherb.cardkeeper.databinding.ActivityCardsBinding
 import com.awscherb.cardkeeper.ui.base.BaseActivity
+import com.awscherb.cardkeeper.databinding.ActivityCardsBinding
 import mlkit.barcodescanning.MultipleCodeScanActivity
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class CardsActivity(): BaseActivity() {
 
     //================================================================================
     // Lifecycle methods
     //================================================================================
-    @Inject
-    lateinit var twCodeDao: TwCodeDao
+    private val twCodeDao: TwCodeDao by inject()
 
     private lateinit var fragment: CardsFragment
 
@@ -24,7 +23,6 @@ class CardsActivity(): BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewComponent().inject(this)
 
         binding = ActivityCardsBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)

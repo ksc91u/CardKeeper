@@ -7,10 +7,10 @@ import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.awscherb.cardkeeper.data.model.TwCode
-import com.awscherb.cardkeeper.databinding.AdapterCodeBinding
 import com.awscherb.cardkeeper.ui.base.BaseAdapter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import com.awscherb.cardkeeper.databinding.AdapterCodeBinding
 import github.nisrulz.recyclerviewhelper.RVHAdapter
 import mlkit.BarcodeFormat
 

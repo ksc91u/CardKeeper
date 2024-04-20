@@ -1,38 +1,29 @@
 package com.awscherb.cardkeeper.ui.card_detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.ScannedCode
 import com.awscherb.cardkeeper.databinding.FragmentCardDetailBinding
 import com.awscherb.cardkeeper.ui.base.BaseFragment
 import com.google.zxing.WriterException
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.journeyapps.barcodescanner.BarcodeEncoder
+//import com.awscherb.cardkeeper.databinding.FragmentCardDetailBinding
 import mlkit.BarcodeFormat
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class CardDetailFragment:
     BaseFragment<FragmentCardDetailBinding>({ inflater -> FragmentCardDetailBinding.inflate(inflater) }),
     CardDetailContract.View {
 
-    @Inject
-    internal lateinit var presenter: CardDetailContract.Presenter
+    private val presenter: CardDetailContract.Presenter by inject()
 
     private val encoder: BarcodeEncoder = BarcodeEncoder()
 
     //================================================================================
     // Lifecycle methods
     //================================================================================
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        baseActivity.viewComponent().inject(this)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

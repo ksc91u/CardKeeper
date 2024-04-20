@@ -8,7 +8,7 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class ScannedCodeHandler @Inject constructor(
+class ScannedCodeHandler constructor(
     var scannedCodeDao: ScannedCodeDao
 ) : BaseHandler(), ScannedCodeService {
 

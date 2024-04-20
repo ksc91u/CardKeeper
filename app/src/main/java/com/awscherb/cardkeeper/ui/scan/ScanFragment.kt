@@ -7,11 +7,11 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.PermissionChecker
-import com.awscherb.cardkeeper.databinding.FragmentScanBinding
 import com.awscherb.cardkeeper.ui.base.BaseFragment
 import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
+import com.awscherb.cardkeeper.databinding.FragmentScanBinding
 
 class ScanFragment: BaseFragment<FragmentScanBinding>(
     { inflater -> FragmentScanBinding.inflate(inflater) }

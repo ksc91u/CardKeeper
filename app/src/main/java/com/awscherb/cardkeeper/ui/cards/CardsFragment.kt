@@ -10,20 +10,19 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.TWSuperMarketCode
 import com.awscherb.cardkeeper.data.model.TwCode
-import com.awscherb.cardkeeper.databinding.FragmentCardsBinding
 import com.awscherb.cardkeeper.ui.base.BaseFragment
 import com.awscherb.cardkeeper.ui.card_detail.CardDetailActivity
 import com.awscherb.cardkeeper.ui.listener.RecyclerItemClickListener
+import com.awscherb.cardkeeper.databinding.FragmentCardsBinding
 import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
 import mlkit.BarcodeFormat
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class CardsFragment: BaseFragment<FragmentCardsBinding>(
     { inflater -> FragmentCardsBinding.inflate(inflater) }
 ), CardsContract.View {
 
-    @Inject
-    internal lateinit var presenter: CardsContract.Presenter
+    private val presenter: CardsPresenter by inject()
 
     private lateinit var layoutManager: androidx.recyclerview.widget.GridLayoutManager
     private lateinit var scannedCodeAdapter: CardsAdapter
@@ -36,8 +35,6 @@ class CardsFragment: BaseFragment<FragmentCardsBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        baseActivity.viewComponent().inject(this)
 
         spanCount = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             2

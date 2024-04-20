@@ -45,6 +45,4 @@ abstract class BaseActivity: RxAppCompatActivity() {
     fun setTitle(title: String) {
         toolbar?.title = title
     }
-
-    fun viewComponent() = (application as CardKeeperApplication).viewComponent
 }
