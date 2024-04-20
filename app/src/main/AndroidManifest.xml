@@ -37,14 +37,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.card_detail.CardDetailActivity"
-            android:parentActivityName=".ui.cards.CardsActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name=".ui.scan.ScanActivity"
-            android:parentActivityName=".ui.cards.CardsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="mlkit.LivePreviewActivity"
             android:exported="true"></activity>
     </application>

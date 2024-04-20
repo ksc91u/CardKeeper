@@ -8,7 +8,6 @@ import com.awscherb.cardkeeper.data.handler.ScannedCodeHandler
 import com.awscherb.cardkeeper.data.handler.TwCodeHandler
 import com.awscherb.cardkeeper.data.service.ScannedCodeService
 import com.awscherb.cardkeeper.data.service.TwCodeService
-import com.awscherb.cardkeeper.ui.card_detail.CardDetailPresenter
 import com.awscherb.cardkeeper.ui.cards.CardsPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.koin.android.ext.koin.androidContext
@@ -45,8 +44,5 @@ val daoModule = module {
 val presenterModule = module {
     factory {
         CardsPresenter(AndroidSchedulers.mainThread(), get(), get())
-    }
-    factory {
-        CardDetailPresenter(AndroidSchedulers.mainThread(), get())
     }
 }

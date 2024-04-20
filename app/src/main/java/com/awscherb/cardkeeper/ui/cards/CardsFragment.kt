@@ -10,10 +10,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.model.TWSuperMarketCode
 import com.awscherb.cardkeeper.data.model.TwCode
-import com.awscherb.cardkeeper.ui.base.BaseFragment
-import com.awscherb.cardkeeper.ui.card_detail.CardDetailActivity
-import com.awscherb.cardkeeper.ui.listener.RecyclerItemClickListener
 import com.awscherb.cardkeeper.databinding.FragmentCardsBinding
+import com.awscherb.cardkeeper.ui.base.BaseFragment
 import github.nisrulz.recyclerviewhelper.RVHItemTouchHelperCallback
 import mlkit.BarcodeFormat
 import org.koin.android.ext.android.inject
@@ -152,26 +150,6 @@ class CardsFragment: BaseFragment<FragmentCardsBinding>(
             cardsRecycler.layoutManager = layoutManager
             cardsRecycler.adapter = scannedCodeAdapter
         }
-    }
-
-    private fun setupListeners() {
-        binding.cardsRecycler.addOnItemTouchListener(
-            RecyclerItemClickListener(requireActivity(),
-                object: RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View, position: Int) {
-                        startActivity(
-                            Intent(activity, CardDetailActivity::class.java)
-                                .apply {
-                                    putExtra(
-                                        CardDetailActivity.EXTRA_CARD_ID,
-                                        scannedCodeAdapter[position].id
-                                    )
-                                }
-                        )
-                    }
-                }
-            )
-        )
     }
 
     fun switch() {

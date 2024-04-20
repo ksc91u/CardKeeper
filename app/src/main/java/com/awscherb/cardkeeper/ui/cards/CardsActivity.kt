@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import com.awscherb.cardkeeper.R
 import com.awscherb.cardkeeper.data.dao.TwCodeDao
-import com.awscherb.cardkeeper.ui.base.BaseActivity
 import com.awscherb.cardkeeper.databinding.ActivityCardsBinding
+import com.awscherb.cardkeeper.ui.base.BaseActivity
 import mlkit.barcodescanning.MultipleCodeScanActivity
 import org.koin.android.ext.android.inject
 
