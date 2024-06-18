@@ -6,8 +6,8 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:8.2.2")
         classpath(kotlin("gradle-plugin", version = "1.9.21"))
-        classpath("com.google.gms:google-services:4.3.15")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.4")
+        classpath("com.google.gms:google-services:4.4.2")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.1")
     }
 }
 
@@ -20,7 +20,6 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        maven("https://maven.fabric.io/public")
     }
 }
 
